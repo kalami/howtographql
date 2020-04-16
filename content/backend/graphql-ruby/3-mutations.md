@@ -67,18 +67,17 @@ Create a new file - `app/graphql/mutations/create_link.rb`:
 ```ruby(path=".../graphql-ruby/app/graphql/mutations/create_link.rb")
 module Mutations
   class CreateLink < BaseMutation
-    # arguments passed to the `resolve` method
     argument :description, String, required: true
     argument :url, String, required: true
 
-    # return type from the mutation
-    type Types::LinkType
+    field :link, Types::LinkType, null: false
 
     def resolve(description: nil, url: nil)
-      Link.create!(
+      link = Link.create!(
         description: description,
-        url: url,
+        url: url
       )
+      {link: link}
     end
   end
 end
